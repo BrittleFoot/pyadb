@@ -1,5 +1,5 @@
 *.*_cache
-pycache
+__pycache__
 *.egg-info
 .coverage
 .vscode

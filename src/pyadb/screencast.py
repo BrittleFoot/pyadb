@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from pyadb.console import loader
+from pyadb.console import Loader
 import pyadb.connect as connect
 
 from adb_shell.adb_device import AdbDevice
@@ -15,11 +15,25 @@ class Screencast:
 
     def start(self):
         self.device.shell("content insert --uri content://settings/system --bind name:s:show_touches --bind value:i:1")
-        self.device.shell("screenrecord --bugreport --verbose {self.cast_location}", transport_timeout_s=None)
+        
+        print('Screen recording started')
+        result = self.device.shell(
+            f"screenrecord --bugreport --verbose --time-limit 60 {self.cast_location}", 
+            timeout_s=None,
+            read_timeout_s=None,
+            transport_timeout_s=None
+        )
+        
+        print('Screen recording result:')
+        print(result)
         
     def stop(self):
         self.device.shell("pkill -2 screenrecord")
-        self.device.pull(self.cast_location, "report/screencast.mp4", progress_callback=loader)
+        
+        print("Pulling screen records")
+        self.device.pull(self.cast_location, "report/screencast.mp4", progress_callback=Loader())
+        
+        print("Delete record")
         self.device.shell(f'rm {self.cast_location}')
 
 
@@ -31,7 +45,8 @@ def main():
     caster.start()
     os.system('pause')
     caster.stop()
-    
+
+
 def parse_args():
     parser = argparse.ArgumentParser("screenshot")
     

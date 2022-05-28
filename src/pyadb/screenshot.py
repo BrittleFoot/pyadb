@@ -2,10 +2,9 @@ import argparse
 import os
 import sys
 
-from pyadb.console import loader
+from pathlib import Path
+from pyadb.console import Loader
 import pyadb.connect as connect
-
-
 
 
 def main():
@@ -15,13 +14,17 @@ def main():
     device = connect.tcp(args.ip)
     
     screenshot_location = '/storage/emulated/0/DCIM/screenshot.png'
-    output = 'report.png'
+    
+    report_dir = Path('report')
+    report_dir.mkdir(exist_ok=True)
+    
+    output = report_dir / 'screenshot.png'
 
     print("Taking screenshot")
     device.shell(f'screencap -p {screenshot_location}')
     
     print("Downloading screenshot")
-    device.pull(screenshot_location, output, progress_callback=loader)
+    device.pull(screenshot_location, output, progress_callback=Loader())
     
     print("Cleaning the room")
     device.shell(f'rm {screenshot_location}')
