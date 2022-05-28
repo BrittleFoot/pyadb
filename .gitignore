@@ -5,3 +5,4 @@ pycache
 .vscode
 .venv
 build
+report

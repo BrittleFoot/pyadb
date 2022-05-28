@@ -2,11 +2,10 @@ import argparse
 import os
 import sys
 
+from pyadb.console import loader
 import pyadb.connect as connect
 
 
-def loader(device_path, bytes_written, total_bytes):
-    print(f">>> {bytes_written/total_bytes*100:2.2f}%")
 
 
 def main():
