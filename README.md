@@ -9,7 +9,7 @@ Compatible with python3.10+
 ```
 py -3.10 -m venv .venv
 .venv\Scripts\activate.bat
-python install --upgrade pip
+python -m pip install --upgrade pip
 ```
 
 ## Install
