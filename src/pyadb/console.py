@@ -7,4 +7,6 @@ class Loader:
         
     def __call__(self, file_name, bytes_written, total_bytes):
         self.total_written += bytes_written
-        print(f">>> {self.total_written/total_bytes*100:2.2f} %")
+        percent = self.total_written / total_bytes
+        end = '\n' if abs(1 - percent) < 1e-6 else '\r'
+        print(f">>> {percent*100:2.2f} %", end=end)
